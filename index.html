@@ -52,8 +52,8 @@
 <body>
   <div class="container" id="welcome-screen">
     <h1>🐾 ¡Bienvenidas a Mathimals! 🦄</h1>
-    <img src="assets/carpincho.png" alt="Carpincho" class="character">
-    <img src="assets/unicornio.png" alt="Unicornio" class="character">
+    <img src="carpincho.png" alt="Carpincho" class="character">
+    <img src="unicornio.png" alt="Unicornio" class="character">
     <button onclick="showMenu()">¡Empezar a jugar!</button>
   </div>
 
@@ -78,9 +78,9 @@
     let correctAnswer = 0;
 
     const sounds = {
-      correct: new Howl({ src: ['assets/correct.mp3'] }),
-      wrong: new Howl({ src: ['assets/wrong.mp3'] }),
-      click: new Howl({ src: ['assets/click.mp3'] })
+      correct: new Howl({ src: ['correct.mp3'] }),
+      wrong: new Howl({ src: ['wrong.mp3'] }),
+      click: new Howl({ src: ['click.mp3'] })
     };
 
     function showMenu() {
