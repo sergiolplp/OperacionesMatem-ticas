@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mathimals</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background-color: #ffe4f0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 20px;
+    }
+    button {
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #fdd835;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #fbc02d;
+    }
+    .character {
+      height: 100px;
+      margin: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+    #answers button {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+    }
+    #feedback {
+      font-size: 1.3rem;
+      margin: 15px;
+      height: 2em;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+  <div class="container" id="welcome-screen">
+    <h1>🐾 ¡Bienvenidas a Mathimals! 🦄</h1>
+    <img src="assets/carpincho.png" alt="Carpincho" class="character">
+    <img src="assets/unicornio.png" alt="Unicornio" class="character">
+    <button onclick="showMenu()">¡Empezar a jugar!</button>
+  </div>
+
+  <div class="container hidden" id="menu-screen">
+    <h2>Elegí una operación</h2>
+    <button onclick="startGame('+')">➕ Suma</button>
+    <button onclick="startGame('-')">➖ Resta</button>
+    <button onclick="startGame('*')">✖️ Multiplicación</button>
+    <button onclick="startGame('/')">➗ División</button>
+  </div>
+
+  <div class="container hidden" id="game-screen">
+    <h2 id="question">¿Cuánto es ...?</h2>
+    <div id="answers"></div>
+    <p id="feedback" class="animate__animated"></p>
+    <button onclick="goBack()">⬅️ Volver</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <script>
+    let currentOperator = '+';
+    let correctAnswer = 0;
+
+    const sounds = {
+      correct: new Howl({ src: ['assets/correct.mp3'] }),
+      wrong: new Howl({ src: ['assets/wrong.mp3'] }),
+      click: new Howl({ src: ['assets/click.mp3'] })
+    };
+
+    function showMenu() {
+      document.getElementById('welcome-screen').classList.add('hidden');
+      document.getElementById('menu-screen').classList.remove('hidden');
+      sounds.click.play();
+    }
+
+    function startGame(operator) {
+      currentOperator = operator;
+      document.getElementById('menu-screen').classList.add('hidden');
+      document.getElementById('game-screen').classList.remove('hidden');
+      sounds.click.play();
+      generateQuestion();
+    }
+
+    function generateQuestion() {
+      let a = Math.floor(Math.random() * 10) + 1;
+      let b = Math.floor(Math.random() * 10) + 1;
+
+      if (currentOperator === '-') {
+        if (b > a) [a, b] = [b, a];
+        correctAnswer = a - b;
+      } else if (currentOperator === '*') {
+        correctAnswer = a * b;
+      } else if (currentOperator === '/') {
+        correctAnswer = a;
+        b = Math.floor(Math.random() * 9) + 1;
+        a = correctAnswer * b;
+      } else {
+        correctAnswer = a + b;
+      }
+
+      document.getElementById('question').textContent = `¿Cuánto es ${a} ${currentOperator} ${b}?`;
+
+      const answersDiv = document.getElementById('answers');
+      answersDiv.innerHTML = '';
+      let options = [correctAnswer];
+      while (options.length < 3) {
+        let option = correctAnswer + Math.floor(Math.random() * 10) - 5;
+        if (!options.includes(option) && option >= 0) {
+          options.push(option);
+        }
+      }
+      options.sort(() => Math.random() - 0.5);
+
+      options.forEach(opt => {
+        let btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const feedback = document.getElementById('feedback');
+      if (selected === correctAnswer) {
+        feedback.textContent = "¡Muy bien!";
+        feedback.className = "animate__animated animate__bounceIn";
+        sounds.correct.play();
+      } else {
+        feedback.textContent = "Ups, intentá de nuevo.";
+        feedback.className = "animate__animated animate__shakeX";
+        sounds.wrong.play();
+      }
+      setTimeout(() => {
+        feedback.textContent = "";
+        generateQuestion();
+      }, 1500);
+    }
+
+    function goBack() {
+      document.getElementById('game-screen').classList.add('hidden');
+      document.getElementById('menu-screen').classList.remove('hidden');
+      sounds.click.play();
+    }
+  </script>
+</body>
+</html>
