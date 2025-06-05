@@ -16,8 +16,8 @@
       padding: 20px;
     }
     button {
-      font-size: 1.3rem;
-      padding: 12px 24px;
+      font-size: 1.5rem;
+      padding: 15px 30px;
       margin: 10px;
       border: none;
       border-radius: 10px;
@@ -32,11 +32,6 @@
     .character {
       height: 100px;
       margin: 10px;
-    }
-    .small-icon {
-      height: 30px;
-      vertical-align: middle;
-      margin-left: 8px;
     }
     .hidden {
       display: none;
@@ -55,48 +50,46 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <body>
-  <!-- PANTALLA DE BIENVENIDA -->
   <div class="container" id="welcome-screen">
-    <h1>🐾  Luci, Sofi... a jugar con ejercicios matemáticos! 🦄</h1>
+    <h1>🐾 ¡Bienvenidas a Mathimals! 🦄</h1>
     <img src="carpincho.png" alt="Carpincho" class="character">
-    <img src="unicornio.png" alt="Unicornio" class="character"><br>
+    <img src="unicornio.png" alt="Unicornio" class="character">
     <button onclick="showMenu()">¡Empezar a jugar!</button>
     <button onclick="showHelp()">¿Cómo se resuelve?</button>
   </div>
 
-  <!-- MENÚ DE OPERACIONES -->
   <div class="container hidden" id="menu-screen">
     <h2>Elegí una operación</h2>
     <button onclick="startGame('+')">➕ Suma</button>
     <button onclick="startGame('-')">➖ Resta</button>
     <button onclick="startGame('*')">✖️ Multiplicación</button>
-    <button onclick="startGame('/')">➗ División</button><br>
-    <button onclick="goToWelcome()">Volver <img src="carpincho.png" alt="Carpincho" class="small-icon"></button>
+    <button onclick="startGame('/')">➗ División</button>
+    <br>
+    <button onclick="goToWelcome()">
+      ⬅️ Volver <img src="carpincho.png" class="character" style="height: 50px;">
+    </button>
   </div>
 
-  <!-- JUEGO -->
   <div class="container hidden" id="game-screen">
     <h2 id="question">¿Cuánto es ...?</h2>
     <div id="answers"></div>
     <p id="feedback" class="animate__animated"></p>
-    <button onclick="goToMenu()">Volver <img src="unicornio.png" alt="Unicornio" class="small-icon"></button>
+    <button onclick="goBack()">
+      ⬅️ Volver <img src="unicornio.png" class="character" style="height: 50px;">
+    </button>
   </div>
 
-  <!-- SECCIÓN DE AYUDA -->
   <div class="container hidden" id="help-screen">
     <h2>¿Cómo se resuelve?</h2>
-    <button onclick="showExplanation('+')">➕ Suma</button>
-    <button onclick="showExplanation('-')">➖ Resta</button>
-    <button onclick="showExplanation('*')">✖️ Multiplicación</button>
-    <button onclick="showExplanation('/')">➗ División</button><br>
-    <button onclick="goToWelcome()">Volver <img src="carpincho.png" alt="Carpincho" class="small-icon"></button>
-  </div>
-
-  <!-- SECCIÓN DE EXPLICACIÓN -->
-  <div class="container hidden" id="explanation-screen">
-    <h2 id="explanation-title"></h2>
-    <p id="explanation-text" style="font-size: 1.2rem;"></p>
-    <button onclick="showHelp()">Volver <img src="unicornio.png" alt="Unicornio" class="small-icon"></button>
+    <button onclick="showHelpText('sumar')">➕ Suma</button>
+    <button onclick="showHelpText('restar')">➖ Resta</button>
+    <button onclick="showHelpText('multiplicar')">✖️ Multiplicación</button>
+    <button onclick="showHelpText('dividir')">➗ División</button>
+    <div id="help-text" style="margin-top: 20px; font-size: 1.2rem;"></div>
+    <br>
+    <button onclick="goToWelcome()">
+      ⬅️ Volver <img src="carpincho.png" class="character" style="height: 50px;">
+    </button>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
@@ -110,10 +103,6 @@
       click: new Howl({ src: ['click.mp3'] })
     };
 
-    function hideAll() {
-      document.querySelectorAll('.container').forEach(div => div.classList.add('hidden'));
-    }
-
     function showMenu() {
       hideAll();
       document.getElementById('menu-screen').classList.remove('hidden');
@@ -126,6 +115,24 @@
       document.getElementById('game-screen').classList.remove('hidden');
       sounds.click.play();
       generateQuestion();
+    }
+
+    function goBack() {
+      hideAll();
+      document.getElementById('menu-screen').classList.remove('hidden');
+      sounds.click.play();
+    }
+
+    function goToWelcome() {
+      hideAll();
+      document.getElementById('welcome-screen').classList.remove('hidden');
+      sounds.click.play();
+    }
+
+    function hideAll() {
+      ['welcome-screen', 'menu-screen', 'game-screen', 'help-screen'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
     }
 
     function generateQuestion() {
@@ -183,41 +190,25 @@
       }, 1500);
     }
 
-    function goToWelcome() {
-      hideAll();
-      document.getElementById('welcome-screen').classList.remove('hidden');
-      sounds.click.play();
-    }
-
-    function goToMenu() {
-      hideAll();
-      document.getElementById('menu-screen').classList.remove('hidden');
-      sounds.click.play();
-    }
-
     function showHelp() {
       hideAll();
       document.getElementById('help-screen').classList.remove('hidden');
+      document.getElementById('help-text').textContent = '';
       sounds.click.play();
     }
 
-    function showExplanation(op) {
-      hideAll();
-      const title = {
-        '+': "¿Cómo se suma?",
-        '-': "¿Cómo se resta?",
-        '*': "¿Cómo se multiplica?",
-        '/': "¿Cómo se divide?"
-      };
-      const explanation = {
-        '+': "Sumar es juntar cosas. Si tenés 2 caramelos y te dan 3 más, ahora tenés 5. ¡Solo contás todo junto!",
-        '-': "Restar es sacar. Si tenés 5 galletas y te comés 2, te quedan 3. ¡Contás lo que queda!",
-        '*': "Multiplicar es sumar varias veces. Si tenés 3 bolsitas con 2 caramelos cada una, en total tenés 6 (2+2+2).",
-        '/': "Dividir es repartir. Si tenés 6 globos y los das entre 3 amigos, a cada uno le das 2 globos."
-      };
-      document.getElementById('explanation-title').textContent = title[op];
-      document.getElementById('explanation-text').textContent = explanation[op];
-      document.getElementById('explanation-screen').classList.remove('hidden');
+    function showHelpText(tipo) {
+      let texto = '';
+      if (tipo === 'sumar') {
+        texto = "Sumar es juntar. Si tenés 2 manzanas y te dan 3 más, ahora tenés 5. ¡2 + 3 = 5!";
+      } else if (tipo === 'restar') {
+        texto = "Restar es sacar. Si tenés 5 caramelos y te comés 2, te quedan 3. ¡5 - 2 = 3!";
+      } else if (tipo === 'multiplicar') {
+        texto = "Multiplicar es repetir. Si tenés 3 grupos con 2 cosas cada uno, en total tenés 6. ¡3 x 2 = 6!";
+      } else if (tipo === 'dividir') {
+        texto = "Dividir es repartir. Si tenés 6 galletas para 3 personas, a cada una le das 2. ¡6 ÷ 3 = 2!";
+      }
+      document.getElementById('help-text').textContent = texto;
       sounds.click.play();
     }
   </script>
