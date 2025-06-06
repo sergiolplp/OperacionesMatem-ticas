@@ -51,8 +51,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
-  justify-items: center;
-  margin: 20px 0;
+  justify-content: center;  /* Centra horizontalmente el grid */
+  justify-items: center;    /* Centra los botones dentro de sus celdas */
+  margin: 20px auto;
+  max-width: 400px;         /* Limita el ancho para que quede compacto */
 }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
