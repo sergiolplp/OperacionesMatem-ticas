@@ -12,8 +12,11 @@
       padding: 0;
     }
     .container {
-      padding: 20px;
-    }
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+     }
     button {
       font-size: 1.5rem;
       padding: 15px 30px;
@@ -47,6 +50,11 @@
       margin: 15px;
       height: 2em;
     }
+    .volver-btn {
+  background-color: orange;
+  color: white;
+  margin-top: auto;
+}
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
@@ -66,7 +74,7 @@
     <button onclick="startGame('*')">✖️ Multiplicación</button>
     <button onclick="startGame('/')">➗ División</button>
     <br>
-    <button onclick="goToWelcome()">
+    <button class="volver-btn" onclick="goToWelcome()">
       Volver
     </button>
   </div>
@@ -75,7 +83,7 @@
     <h2 id="question">¿Cuánto es ...?</h2>
     <div id="answers"></div>
     <p id="feedback" class="animate__animated"></p>
-    <button onclick="goBack()">
+    <button class="volver-btn" onclick="goBack()">
       Volver
     </button>
   </div>
@@ -88,7 +96,7 @@
     <button onclick="showHelpText('dividir')">➗ División</button>
     <div id="help-text" style="margin-top: 20px; font-size: 1.2rem;"></div>
     <br>
-    <button onclick="goToWelcome()">
+    <button class="volver-btn" onclick="goToWelcome()">
       Volver
     </button>
   </div>
