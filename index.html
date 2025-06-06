@@ -61,12 +61,14 @@
 
   <div class="container hidden" id="menu-screen">
     <h2>Elegí una operación</h2>
-  <button onclick="startGame('+')">➕ Suma</button>
-  <button onclick="startGame('-')">➖ Resta</button>
-  <button onclick="startGame('*')">✖️ Multiplicación</button>
-  <button onclick="startGame('/')">➗ División</button>
-<br>
-<button onclick="goToWelcome()">Volver</button>
+    <button onclick="startGame('+')">➕ Suma</button>
+    <button onclick="startGame('-')">➖ Resta</button>
+    <button onclick="startGame('*')">✖️ Multiplicación</button>
+    <button onclick="startGame('/')">➗ División</button>
+    <br>
+    <button onclick="goToWelcome()">
+      Volver
+    </button>
   </div>
 
   <div class="container hidden" id="game-screen">
@@ -151,7 +153,7 @@
         correctAnswer = a + b;
       }
 
-      document.getElementById('question').textContent = `¿Cuánto es ${a} ${currentOperator} ${b}?`;
+      document.getElementById('question').textContent = ¿Cuánto es ${a} ${currentOperator} ${b}?;
 
       const answersDiv = document.getElementById('answers');
       answersDiv.innerHTML = '';
