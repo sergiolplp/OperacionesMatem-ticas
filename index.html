@@ -72,6 +72,13 @@
   width: 100%;
   z-index: 999;
 }
+.character-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* espacio entre imágenes */
+  flex-wrap: wrap; /* opcional, para que se adapten en pantallas chicas */
+}
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
@@ -79,8 +86,10 @@
 <body>
   <div class="container" id="welcome-screen">
     <h1>🐾 ¡Luci, Sofi... a jugar con las matemáticas! 🦄</h1>
-    <img src="./carpincho.PNG" alt="Carpincho" class="character">
-    <img src="./unicornio.PNG" alt="Unicornio" class="character">
+    <div class="character-row">
+  <img src="./carpincho.PNG" alt="Carpincho" class="character">
+  <img src="./unicornio.PNG" alt="Unicornio" class="character">
+   </div>
     <button onclick="showMenu()">¡Empezar a jugar!</button>
     <button onclick="showHelp()">¿Cómo se resuelve?</button>
   </div>
