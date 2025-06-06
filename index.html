@@ -47,15 +47,6 @@
       margin: 15px;
       height: 2em;
     }
-    .operation-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  justify-content: center;  /* Centra horizontalmente el grid */
-  justify-items: center;    /* Centra los botones dentro de sus celdas */
-  margin: 20px auto;
-  max-width: 400px;         /* Limita el ancho para que quede compacto */
-}
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
@@ -70,12 +61,10 @@
 
   <div class="container hidden" id="menu-screen">
     <h2>Elegí una operación</h2>
-<div class="operation-grid">
   <button onclick="startGame('+')">➕ Suma</button>
   <button onclick="startGame('-')">➖ Resta</button>
   <button onclick="startGame('*')">✖️ Multiplicación</button>
   <button onclick="startGame('/')">➗ División</button>
-</div>
 <br>
 <button onclick="goToWelcome()">Volver</button>
   </div>
