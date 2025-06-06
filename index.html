@@ -3,77 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
   <style>
-body {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  text-align: center;
-  background-color: #ffe4f0;
-  margin: 0;
-  padding: 0;
-}
-.container {
-  padding: 10px 10px 0 10px;
-}
-h1 {
-  margin: 5px 0 0 0;
-  font-size: 1.4rem;
-  line-height: 1.2;
-}
-.image-row {
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background-color: #ffe4f0;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+  padding: 20px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 4px 0;
+  flex-direction: column;
+  min-height: 100vh;
+     }
+    button {
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #fdd835;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #fbc02d;
+    }
+    .character {
+      height: 150px;
+      margin: 30px 10px 30px 10px;
+      width: 150px;
+      border-radius: 15px;
+    }
+    .hidden {
+      display: none;
+    }
+    #answers button {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+    }
+    #feedback {
+      font-size: 1.3rem;
+      margin: 15px;
+      height: 2em;
+    }
+    .volver-btn {
+  background-color: orange;
+  color: white;
+  margin-top: auto;
 }
-.character {
-  height: 90px;
-  border-radius: 20px;
-}
-button {
-  font-size: 1.4rem;
-  padding: 12px 20px;
-  margin: 6px;
-  border: none;
-  border-radius: 10px;
-  background-color: #fdd835;
-  color: #333;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-button:hover {
-  background-color: #fbc02d;
-}
-.hidden {
-  display: none;
-}
-#answers button {
-  display: block;
-  width: 80%;
-  margin: 8px auto;
-}
-#feedback {
-  font-size: 1.3rem;
-  margin: 10px;
-  height: 2em;
-}
-/* Ajuste específico para botón Volver */
-.container button:last-of-type {
-  margin-bottom: 10px;
-  margin-top: 12px;
   </style>
-  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <body>
   <div class="container" id="welcome-screen">
     <h1>🐾 ¡Luci, Sofi... a jugar con las matemáticas! 🦄</h1>
-    <div class="image-row">
-  <img src="./carpincho.PNG" alt="Carpincho" class="character">
-  <img src="./unicornio.PNG" alt="Unicornio" class="character">
-</div>
+    <img src="./carpincho.PNG" alt="Carpincho" class="character">
+    <img src="./unicornio.PNG" alt="Unicornio" class="character">
     <button onclick="showMenu()">¡Empezar a jugar!</button>
     <button onclick="showHelp()">¿Cómo se resuelve?</button>
   </div>
@@ -111,7 +100,6 @@ button:hover {
       Volver
     </button>
   </div>
-  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   <script>
