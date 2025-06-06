@@ -189,11 +189,11 @@
     function checkAnswer(selected) {
       const feedback = document.getElementById('feedback');
       if (selected === correctAnswer) {
-        feedback.textContent = "¡Muy bien!";
+        feedback.textContent = "¡Excelente hija, seguí asi ❤️!";
         feedback.className = "animate__animated animate__bounceIn";
         sounds.correct.play();
       } else {
-        feedback.textContent = "Ups, intentá de nuevo.";
+        feedback.textContent = "Ups, intentá de nuevo 🤯";
         feedback.className = "animate__animated animate__shakeX";
         sounds.wrong.play();
       }
@@ -213,13 +213,13 @@
     function showHelpText(tipo) {
       let texto = '';
       if (tipo === 'sumar') {
-        texto = "Sumar es juntar. Si tenés 2 manzanas y te dan 3 más, ahora tenés 5. ¡2 + 3 = 5!";
+        texto = "Sumar es juntar. Si tenés 2 brócolis y te dan 3 más, ahora tenés 5. ¡2 🥦🥦 ➕ 3 🥦🥦🥦 = 5 🥦🥦🥦🥦🥦!";
       } else if (tipo === 'restar') {
-        texto = "Restar es sacar. Si tenés 5 caramelos y te comés 2, te quedan 3. ¡5 - 2 = 3!";
-      } else if (tipo === 'multiplicar') {
-        texto = "Multiplicar es repetir. Si tenés 3 grupos con 2 cosas cada uno, en total tenés 6. ¡3 x 2 = 6!";
+        texto = "Restar es sacar. Si tenés 3 caramelos y te comés 2, te quedan 1. ¡3 🍬🍬🍬 ➖ 2 🍬🍬 = 3 🍬!";
+      } else if (tipo === 'multiplicar') { 
+        texto = "Multiplicar es repetir. Si tenés 3 grupos con 2 cosas cada uno, en total tenés 6. ¡3 x 2 = 6! Acordate de lo que hablamos. Es como si el primer número le dice al otro, sumate la cantidad de veces que te digo";
       } else if (tipo === 'dividir') {
-        texto = "Dividir es repartir. Si tenés 6 galletas para 3 personas, a cada una le das 2. ¡6 ÷ 3 = 2!";
+        texto = "Dividir es repartir. Si tenés 3 galletitas y querés compartir con 3 amigas, a cada una le das 1. ¡3 🍪🍪🍪 ➗ 3 🍪🍪🍪 = 1 🍪!";
       }
       document.getElementById('help-text').textContent = texto;
       sounds.click.play();
