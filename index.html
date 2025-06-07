@@ -212,6 +212,7 @@
         answersDiv.appendChild(btn);
       });
     }
+    document.querySelectorAll('#answers button').forEach(btn => btn.disabled = false);
 
     function checkAnswer(selected) {
       const feedback = document.getElementById('feedback');
