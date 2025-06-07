@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body {
-  font-family: 'Fredoka', sans-serif;
-  text-align: center;
-  background-color: #ffe4f0;
-  margin: 0;
-  padding: 0;
-}
+      font-family: 'Fredoka', sans-serif;
+      text-align: center;
+      background-color: #ffe4f0;
+      margin: 0;
+      padding: 0;
+    }
     .container {
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  box-sizing: border-box;
-  padding-bottom: 70px; /* espacio para el footer */
-}
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      padding-bottom: 70px;
+    }
     button {
       font-size: 1.5rem;
       padding: 15px 30px;
@@ -54,31 +54,50 @@
       height: 2em;
     }
     .volver-btn {
-  background-color: orange;
-  color: white;
-  margin-top: auto;
-  margin-bottom: 100px;
-  overflow-y: auto;
-}
-.footer {
-  background-color: #ffc1e3;
-  color: #333;
-  text-align: center;
-  padding: 10px 10px;
-  font-size: 1rem;
-  font-style: italic;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 999;
-}
-.character-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* espacio entre imágenes */
-  flex-wrap: wrap; /* opcional, para que se adapten en pantallas chicas */
-}
+      background-color: orange;
+      color: white;
+      margin-top: auto;
+      margin-bottom: 100px;
+      overflow-y: auto;
+    }
+    .footer {
+      background-color: #ffc1e3;
+      color: #333;
+      text-align: center;
+      padding: 10px 10px;
+      font-size: 1rem;
+      font-style: italic;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      z-index: 999;
+    }
+    .character-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    /* Barra de nivel */
+    #nivel-container {
+      width: 80%;
+      margin: 10px auto;
+      text-align: center;
+    }
+    .barra-nivel {
+      background-color: #ddd;
+      border-radius: 20px;
+      height: 20px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    #nivel-barra {
+      height: 100%;
+      width: 0%;
+      background-color: #8bc34a;
+      transition: width 0.4s ease-in-out;
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
@@ -114,6 +133,15 @@
 
   <div class="container hidden" id="game-screen">
     <h2 id="question">¿Cuánto es ...?</h2>
+
+    <!-- Barra de nivel -->
+    <div id="nivel-container">
+      <p>Nivel: <span id="nivel-numero">1</span></p>
+      <div class="barra-nivel">
+        <div id="nivel-barra"></div>
+      </div>
+    </div>
+
     <div id="answers"></div>
     <p id="feedback" class="animate__animated"></p>
     <button class="volver-btn" onclick="goBack()">Volver</button>
@@ -129,7 +157,7 @@
     <br>
     <button class="volver-btn" onclick="goToWelcome()">Volver</button>
   </div>
-  
+
   <footer class="footer">
     Desarrollado con Inteligencia Artificial y la colaboración de Mamá y Papá. 🥰
   </footer>
@@ -139,6 +167,9 @@
     let currentOperator = '+';
     let correctAnswer = 0;
     let nombreUsuario = '';
+    let nivel = 1;
+    let aciertos = 0;
+    const aciertosParaSubirNivel = 19;
 
     const sounds = {
       correct: new Howl({ src: ['./correct.wav'] }),
@@ -159,6 +190,9 @@
 
     function selectUser(nombre) {
       nombreUsuario = nombre;
+      nivel = 1;
+      aciertos = 0;
+      actualizarNivel();
       hideAll();
       document.getElementById('menu-screen').classList.remove('hidden');
       document.getElementById('saludo-usuario').textContent = `Hola hija, ¿vamos a jugar?`;
@@ -174,6 +208,9 @@
     }
 
     function goBack() {
+      nivel = 1;
+      aciertos = 0;
+      actualizarNivel();
       hideAll();
       document.getElementById('menu-screen').classList.remove('hidden');
       sounds.click.play();
@@ -237,6 +274,12 @@
         feedback.textContent = "¡Excelente hija, seguí así ❤️!";
         feedback.className = "animate__animated animate__bounceIn";
         sounds.correct.play();
+        aciertos++;
+        if (aciertos >= aciertosParaSubirNivel) {
+          nivel++;
+          aciertos = 0;
+        }
+        actualizarNivel();
       } else {
         feedback.textContent = "Ups, intentá de nuevo 🤯";
         feedback.className = "animate__animated animate__shakeX";
@@ -247,6 +290,12 @@
         feedback.textContent = "";
         generateQuestion();
       }, 3000);
+    }
+
+    function actualizarNivel() {
+      document.getElementById('nivel-numero').textContent = nivel;
+      const progreso = (aciertos / aciertosParaSubirNivel) * 100;
+      document.getElementById('nivel-barra').style.width = progreso + "%";
     }
 
     function showHelp() {
