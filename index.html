@@ -176,43 +176,45 @@
     }
 
     function generateQuestion() {
-      let a = Math.floor(Math.random() * 10) + 1;
-      let b = Math.floor(Math.random() * 10) + 1;
+  let a = Math.floor(Math.random() * 10) + 1;
+  let b = Math.floor(Math.random() * 10) + 1;
 
-      if (currentOperator === '-') {
-        if (b > a) [a, b] = [b, a];
-        correctAnswer = a - b;
-      } else if (currentOperator === '*') {
-        correctAnswer = a * b;
-      } else if (currentOperator === '/') {
-        correctAnswer = a;
-        b = Math.floor(Math.random() * 9) + 1;
-        a = correctAnswer * b;
-      } else {
-        correctAnswer = a + b;
-      }
+  if (currentOperator === '-') {
+    if (b > a) [a, b] = [b, a];
+    correctAnswer = a - b;
+  } else if (currentOperator === '*') {
+    correctAnswer = a * b;
+  } else if (currentOperator === '/') {
+    correctAnswer = a;
+    b = Math.floor(Math.random() * 9) + 1;
+    a = correctAnswer * b;
+  } else {
+    correctAnswer = a + b;
+  }
 
-      document.getElementById('question').textContent = `¿Cuánto es ${a} ${currentOperator} ${b}?`;
+  document.getElementById('question').textContent = `¿Cuánto es ${a} ${currentOperator} ${b}?`;
 
-      const answersDiv = document.getElementById('answers');
-      answersDiv.innerHTML = '';
-      let options = [correctAnswer];
-      while (options.length < 3) {
-        let option = correctAnswer + Math.floor(Math.random() * 10) - 5;
-        if (!options.includes(option) && option >= 0) {
-          options.push(option);
-        }
-      }
-      options.sort(() => Math.random() - 0.5);
-
-      options.forEach(opt => {
-        let btn = document.createElement('button');
-        btn.textContent = opt;
-        btn.onclick = () => checkAnswer(opt);
-        answersDiv.appendChild(btn);
-      });
+  const answersDiv = document.getElementById('answers');
+  answersDiv.innerHTML = '';
+  let options = [correctAnswer];
+  while (options.length < 3) {
+    let option = correctAnswer + Math.floor(Math.random() * 10) - 5;
+    if (!options.includes(option) && option >= 0) {
+      options.push(option);
     }
-    document.querySelectorAll('#answers button').forEach(btn => btn.disabled = false);
+  }
+  options.sort(() => Math.random() - 0.5);
+
+  options.forEach(opt => {
+    let btn = document.createElement('button');
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt);
+    answersDiv.appendChild(btn);
+  });
+
+  // 🔓 Habilitar botones después de crearlos
+  document.querySelectorAll('#answers button').forEach(btn => btn.disabled = false);
+}
 
     function checkAnswer(selected) {
       const feedback = document.getElementById('feedback');
