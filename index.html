@@ -87,32 +87,36 @@
   <div class="container" id="welcome-screen">
     <h1>🐾 ¡Luci, Sofi... a jugar con las matemáticas! 🦄</h1>
     <div class="character-row">
-  <img src="./carpincho.PNG" alt="Carpincho" class="character">
-  <img src="./unicornio.PNG" alt="Unicornio" class="character">
-   </div>
+      <img src="./carpincho.PNG" alt="Carpincho" class="character">
+      <img src="./unicornio.PNG" alt="Unicornio" class="character">
+    </div>
     <button onclick="showMenu()">¡Empezar a jugar!</button>
     <button onclick="showHelp()">¿Cómo se resuelve?</button>
   </div>
 
+  <div class="container hidden" id="select-user-screen">
+    <h2>¿Quién va a jugar?</h2>
+    <button onclick="selectUser('Lucía')">Lucía</button>
+    <button onclick="selectUser('Sofía')">Sofía</button>
+    <br>
+    <button class="volver-btn" onclick="goToWelcome()">Volver</button>
+  </div>
+
   <div class="container hidden" id="menu-screen">
-    <h2>Elegí una operación</h2>
+    <h2 id="saludo-usuario">Elegí una operación</h2>
     <button onclick="startGame('+')">➕ Suma</button>
     <button onclick="startGame('-')">➖ Resta</button>
     <button onclick="startGame('*')">✖️ Multiplicación</button>
     <button onclick="startGame('/')">➗ División</button>
     <br>
-    <button class="volver-btn" onclick="goToWelcome()">
-      Volver
-    </button>
+    <button class="volver-btn" onclick="goToWelcome()">Volver</button>
   </div>
 
   <div class="container hidden" id="game-screen">
     <h2 id="question">¿Cuánto es ...?</h2>
     <div id="answers"></div>
     <p id="feedback" class="animate__animated"></p>
-    <button class="volver-btn" onclick="goBack()">
-      Volver
-    </button>
+    <button class="volver-btn" onclick="goBack()">Volver</button>
   </div>
 
   <div class="container hidden" id="help-screen">
@@ -123,19 +127,18 @@
     <button onclick="showHelpText('dividir')">➗ División</button>
     <div id="help-text" style="margin-top: 20px; font-size: 1.2rem;"></div>
     <br>
-    <button class="volver-btn" onclick="goToWelcome()">
-      Volver
-    </button>
+    <button class="volver-btn" onclick="goToWelcome()">Volver</button>
   </div>
   
   <footer class="footer">
-  Desarrollado con Inteligencia Artificial y la colaboración de Mamá y Papá. 🥰
+    Desarrollado con Inteligencia Artificial y la colaboración de Mamá y Papá. 🥰
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   <script>
     let currentOperator = '+';
     let correctAnswer = 0;
+    let nombreUsuario = '';
 
     const sounds = {
       correct: new Howl({ src: ['./correct.wav'] }),
@@ -145,7 +148,20 @@
 
     function showMenu() {
       hideAll();
+      showUserSelect();
+    }
+
+    function showUserSelect() {
+      hideAll();
+      document.getElementById('select-user-screen').classList.remove('hidden');
+      sounds.click.play();
+    }
+
+    function selectUser(nombre) {
+      nombreUsuario = nombre;
+      hideAll();
       document.getElementById('menu-screen').classList.remove('hidden');
+      document.getElementById('saludo-usuario').textContent = `Hola hija, ¿vamos a jugar?`;
       sounds.click.play();
     }
 
@@ -170,51 +186,50 @@
     }
 
     function hideAll() {
-      ['welcome-screen', 'menu-screen', 'game-screen', 'help-screen'].forEach(id => {
+      ['welcome-screen', 'menu-screen', 'game-screen', 'help-screen', 'select-user-screen'].forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });
     }
 
     function generateQuestion() {
-  let a = Math.floor(Math.random() * 10) + 1;
-  let b = Math.floor(Math.random() * 10) + 1;
+      let a = Math.floor(Math.random() * 10) + 1;
+      let b = Math.floor(Math.random() * 10) + 1;
 
-  if (currentOperator === '-') {
-    if (b > a) [a, b] = [b, a];
-    correctAnswer = a - b;
-  } else if (currentOperator === '*') {
-    correctAnswer = a * b;
-  } else if (currentOperator === '/') {
-    correctAnswer = a;
-    b = Math.floor(Math.random() * 9) + 1;
-    a = correctAnswer * b;
-  } else {
-    correctAnswer = a + b;
-  }
+      if (currentOperator === '-') {
+        if (b > a) [a, b] = [b, a];
+        correctAnswer = a - b;
+      } else if (currentOperator === '*') {
+        correctAnswer = a * b;
+      } else if (currentOperator === '/') {
+        correctAnswer = a;
+        b = Math.floor(Math.random() * 9) + 1;
+        a = correctAnswer * b;
+      } else {
+        correctAnswer = a + b;
+      }
 
-  document.getElementById('question').textContent = `¿Cuánto es ${a} ${currentOperator} ${b}?`;
+      document.getElementById('question').textContent = `¿Cuánto es ${a} ${currentOperator} ${b}?`;
 
-  const answersDiv = document.getElementById('answers');
-  answersDiv.innerHTML = '';
-  let options = [correctAnswer];
-  while (options.length < 3) {
-    let option = correctAnswer + Math.floor(Math.random() * 10) - 5;
-    if (!options.includes(option) && option >= 0) {
-      options.push(option);
+      const answersDiv = document.getElementById('answers');
+      answersDiv.innerHTML = '';
+      let options = [correctAnswer];
+      while (options.length < 3) {
+        let option = correctAnswer + Math.floor(Math.random() * 10) - 5;
+        if (!options.includes(option) && option >= 0) {
+          options.push(option);
+        }
+      }
+      options.sort(() => Math.random() - 0.5);
+
+      options.forEach(opt => {
+        let btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt);
+        answersDiv.appendChild(btn);
+      });
+
+      document.querySelectorAll('#answers button').forEach(btn => btn.disabled = false);
     }
-  }
-  options.sort(() => Math.random() - 0.5);
-
-  options.forEach(opt => {
-    let btn = document.createElement('button');
-    btn.textContent = opt;
-    btn.onclick = () => checkAnswer(opt);
-    answersDiv.appendChild(btn);
-  });
-
-  // 🔓 Habilitar botones después de crearlos
-  document.querySelectorAll('#answers button').forEach(btn => btn.disabled = false);
-}
 
     function checkAnswer(selected) {
       const feedback = document.getElementById('feedback');
