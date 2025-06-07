@@ -167,6 +167,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 <script>
   let currentOperator = '+';
   let correctAnswer = 0;
@@ -174,12 +176,15 @@
   let nivel = 1;
   let aciertos = 0;
   const aciertosParaSubirNivel = 10;
+  const jsConfetti = new JSConfetti();
 
-  const sounds = {
-    correct: new Howl({ src: ['./correct.wav'] }),
-    wrong: new Howl({ src: ['./wrong.wav'] }),
-    click: new Howl({ src: ['./click.wav'] })
-  };
+  // Agrega esta línea a tu objeto de sonidos
+const sounds = {
+  correct: new Howl({ src: ['./correct.wav'] }),
+  wrong: new Howl({ src: ['./wrong.wav'] }),
+  click: new Howl({ src: ['./click.wav'] }),
+  levelUp: new Howl({ src: ['./level-up.mp3'] }) // Asegúrate de que el nombre coincida con tu archivo
+};
 
   function showMenu() {
     hideAll();
@@ -279,29 +284,30 @@
   }
 
   function checkAnswer(selected) {
-    const feedback = document.getElementById('feedback');
-    if (selected === correctAnswer) {
-      feedback.textContent = "¡Excelente hija, seguí así ❤️!";
-      feedback.className = "animate__animated animate__bounceIn";
-      sounds.correct.play();
-      aciertos++;
-      if (aciertos >= aciertosParaSubirNivel) {
-        nivel++;
-        aciertos = 0;
-      }
-      actualizarNivel();
-      guardarProgreso();
-    } else {
-      feedback.textContent = "Ups, intentá de nuevo 🤯";
-      feedback.className = "animate__animated animate__shakeX";
-      sounds.wrong.play();
+  const feedback = document.getElementById('feedback');
+  if (selected === correctAnswer) {
+    feedback.textContent = "¡Excelente hija, seguí así ❤️!";
+    feedback.className = "animate__animated animate__bounceIn";
+    sounds.correct.play();
+    aciertos++;
+    if (aciertos >= aciertosParaSubirNivel) {
+      nivel++;
+      aciertos = 0;
+      sounds.levelUp.play(); // Reproduce el sonido de nivel
+      jsConfetti.addConfetti(); // Muestra el confeti
     }
-    document.querySelectorAll('#answers button').forEach(btn => btn.disabled = true);
-    setTimeout(() => {
-      feedback.textContent = "";
-      generateQuestion();
-    }, 3000);
+    actualizarNivel();
+  } else {
+    feedback.textContent = "Ups, intentá de nuevo 🤯";
+    feedback.className = "animate__animated animate__shakeX";
+    sounds.wrong.play();
   }
+  document.querySelectorAll('#answers button').forEach(btn => btn.disabled = true);
+  setTimeout(() => {
+    feedback.textContent = "";
+    generateQuestion();
+  }, 3000);
+}
 
   function actualizarNivel() {
     document.getElementById('nivel-numero').textContent = nivel;
