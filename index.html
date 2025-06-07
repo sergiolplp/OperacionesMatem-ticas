@@ -224,6 +224,7 @@
         feedback.className = "animate__animated animate__shakeX";
         sounds.wrong.play();
       }
+      document.querySelectorAll('#answers button').forEach(btn => btn.disabled = true);
       setTimeout(() => {
         feedback.textContent = "";
         generateQuestion();
